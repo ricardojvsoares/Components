@@ -88,7 +88,7 @@
 			<h2>Icon button</h2>
 			<div class="example">
 				<div class="chip">ariaLabel="settings"</div>
-				<div class="row single">
+				<div class="row">
 					<IconButton ariaLabel="settings" size="md">
 						<svg
 							width="16"
@@ -113,8 +113,6 @@
 							/>
 						</svg>
 					</IconButton>
-				</div>
-				<div class="row single">
 					<IconButton
 						href="https://www.youtube.com/"
 						target="_blank"
@@ -132,8 +130,6 @@
 							<path d="M8 5v14l11-7-11-7z" />
 						</svg>
 					</IconButton>
-				</div>
-				<div class="row single">
 					<IconButton ariaLabel="search" size="sm">
 						<svg
 							width="14"
@@ -157,7 +153,7 @@
 			<h2>Dropdown</h2>
 			<div class="example">
 				<div class="chip">bind:value</div>
-				<div class="row single">
+				<div class="row">
 					<Dropdown
 						items={[
 							{ label: 'One', value: '1' },
@@ -169,7 +165,7 @@
 					/>
 				</div>
 			</div>
-			<div class="row muted">Value: {dropdownValue}</div>
+			<div class="row muted">Value: {dropdownValue || 'none'}</div>
 		</div>
 
 		<div class="demo-card">
@@ -178,6 +174,10 @@
 				<div class="chip">size="md"</div>
 				<div class="row single">
 					<Loading size="md" />
+				</div>
+				<div class="chip">size="lg" label="Loading..."</div>
+				<div class="row single">
+					<Loading size="lg" label="Loading..." />
 				</div>
 			</div>
 		</div>
@@ -196,14 +196,12 @@
 			<h2>Radio</h2>
 			<div class="example">
 				<div class="chip">bind:selected</div>
-				<div class="row single">
+				<div class="stacked-example" style="gap: 0.5rem;">
 					<Radio name="group1" value="a" bind:selected={dropdownValue} label="Option A" />
-				</div>
-				<div class="row single">
 					<Radio name="group1" value="b" bind:selected={dropdownValue} label="Option B" />
 				</div>
 			</div>
-			<div class="row muted">Value: {dropdownValue}</div>
+			<div class="row muted">Value: {dropdownValue || 'none'}</div>
 		</div>
 
 		<div class="demo-card">
@@ -223,14 +221,16 @@
 				<div class="chip">bind:value (0-100)</div>
 				<div class="row single">
 					<Slide bind:value={slideValue} direction="horizontal">
-						<div>Slide content at {slideValue}% width</div>
+						<div style="padding: 1rem; border: 1px dashed var(--border-color); border-radius: 6px;">
+							Slide content at {slideValue}% width
+						</div>
 					</Slide>
 				</div>
 				<div class="row">
-					<label style="display:flex;align-items:center;gap:0.5rem"
-						>Value:
-						<input type="range" min="0" max="100" bind:value={slideValue} />
-						<span class="muted">{slideValue}</span>
+					<label style="display:flex;align-items:center;gap:0.5rem; width: 100%">
+						Value:
+						<input type="range" min="0" max="100" bind:value={slideValue} style="width: 100%" />
+						<span class="muted" style="min-width: 2rem;">{slideValue}</span>
 					</label>
 				</div>
 			</div>
@@ -240,10 +240,8 @@
 			<h2>Toast</h2>
 			<div class="example">
 				<div class="chip">programmatic</div>
-				<div class="row single">
+				<div class="stacked-example">
 					<TextInput placeholder="Toast message" bind:value={inputValue} />
-				</div>
-				<div class="row single">
 					<Dropdown
 						items={[
 							{ label: 'info', value: 'info' },
@@ -253,8 +251,6 @@
 						bind:value={dropdownValue}
 						placeholder="type"
 					/>
-				</div>
-				<div class="row single">
 					<Button onclick={pushToast}>Push toast</Button>
 				</div>
 			</div>
@@ -278,7 +274,7 @@
 			<h2>Form</h2>
 			<div class="example">
 				<div class="chip">on:submit</div>
-				<div class="row single">
+				<div class="stacked-example">
 					<Form onSubmit={(data: unknown) => console.log('form submit', data)}>
 						<TextInput name="fullName" placeholder="Full name" />
 						<TextInput name="email" placeholder="Email" />
@@ -312,7 +308,7 @@
 					<TextInput placeholder="Type something" bind:value={inputValue} />
 				</div>
 			</div>
-			<div class="row muted">Value: {inputValue}</div>
+			<div class="row muted">Value: {inputValue || 'none'}</div>
 		</div>
 
 		<div class="demo-card">
@@ -335,11 +331,13 @@
 					<Toggle size="lg" />
 				</div>
 			</div>
-			<div class="row">
-				<label style="display:flex;align-items:center;gap:0.5rem">
-					Interactive:
-					<Toggle bind:checked={inputChecked} />
-				</label>
+			<div class="example">
+				<div class="row">
+					<label style="display:flex;align-items:center;gap:0.5rem">
+						Interactive:
+						<Toggle bind:checked={inputChecked} />
+					</label>
+				</div>
 			</div>
 			<div class="row muted">Value: {String(inputChecked)}</div>
 		</div>
@@ -347,70 +345,168 @@
 </main>
 
 <style>
+	/* 1. Global Styles & CSS Variables */
+	:global(body) {
+		font-family:
+			system-ui,
+			-apple-system,
+			BlinkMacSystemFont,
+			'Segoe UI',
+			Roboto,
+			Oxygen,
+			Ubuntu,
+			Cantarell,
+			'Open Sans',
+			'Helvetica Neue',
+			sans-serif;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+
+		/* Light theme defaults */
+		--bg: #f8f9fa;
+		--fg: #212529;
+		--border-color: rgba(0, 0, 0, 0.1);
+		--card-bg: #ffffff;
+		--muted-fg: #6b7280;
+		--chip-bg: rgba(0, 0, 0, 0.05);
+		--chip-fg: #111827;
+
+		background-color: var(--bg);
+		color: var(--fg);
+		transition:
+			background-color 0.2s,
+			color 0.2s;
+		margin: 0; /* Ensure no default margin */
+	}
+
+	/* Dark theme overrides */
+	:global([data-theme='dark']) {
+		--bg: #0f172a;
+		--fg: #e2e8f0;
+		--border-color: rgba(255, 255, 255, 0.1);
+		--card-bg: #1e293b;
+		--muted-fg: #94a3b8;
+		--chip-bg: rgba(255, 255, 255, 0.08);
+		--chip-fg: #e2e8f0;
+	}
+
+	/* 2. Layout & Root */
 	.demo-root {
-		padding: 1rem;
-		max-width: 1100px;
+		padding: 2rem;
+		max-width: 1200px;
 		margin: 0 auto;
 	}
+
 	.demo-header {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 1rem;
+		margin-bottom: 2rem;
+		padding-bottom: 1.5rem;
+		border-bottom: 1px solid var(--border-color);
 	}
 	.demo-header h1 {
 		margin: 0;
 	}
-	.muted {
-		color: #6b7280;
-	}
+
 	.demo-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-		gap: 1rem;
-		margin-top: 1rem;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 1.5rem;
 	}
+
+	/* 3. Card Styling */
 	.demo-card {
-		background: var(--card-bg, #fff);
-		border: 1px solid rgba(0, 0, 0, 0.06);
-		padding: 1rem 1.25rem;
-		border-radius: 10px;
-		border-color: rgba(0, 0, 0, 1);
-		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+		background: var(--card-bg);
+		border: 1px solid var(--border-color);
+		padding: 1.5rem;
+		border-radius: 12px;
+		box-shadow:
+			0 2px 4px rgba(0, 0, 0, 0.02),
+			0 5px 10px rgba(0, 0, 0, 0.03);
+		transition:
+			transform 0.2s,
+			box-shadow 0.2s,
+			border-color 0.2s;
+	}
+
+	.demo-card:hover {
+		transform: translateY(-2px);
+		box-shadow:
+			0 4px 8px rgba(0, 0, 0, 0.03),
+			0 8px 16px rgba(0, 0, 0, 0.05);
 	}
 
 	.demo-card h2 {
-		margin: 0 0 0.5rem 0;
-		font-size: 1.05rem;
+		margin: 0 0 1rem 0;
+		font-size: 1.1rem;
+		font-weight: 600;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid var(--border-color);
 	}
 
+	/* 4. Example & Row Styling */
 	.example {
 		display: block;
-		margin: 0.5rem 0;
+		margin: 0;
+		padding: 1rem 0;
+	}
+
+	.example:not(:last-child) {
+		border-bottom: 1px dashed var(--border-color);
+	}
+
+	.example:first-child {
+		padding-top: 0;
+	}
+	.example:last-child {
+		padding-bottom: 0;
 	}
 
 	.chip {
 		display: inline-block;
-		font-size: 0.78rem;
-		padding: 0.18rem 0.45rem;
+		font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+		font-size: 0.75rem;
+		padding: 0.25rem 0.6rem;
 		border-radius: 999px;
-		background: rgba(0, 0, 0, 0.04);
-		color: #111827;
-		margin-bottom: 0.45rem;
+		background: var(--chip-bg);
+		color: var(--chip-fg);
+		margin-bottom: 0.75rem;
 	}
+
 	.row {
 		margin: 0.5rem 0;
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	/* 5. Utility Classes */
+	.muted {
+		color: var(--muted-fg);
+		font-size: 0.9rem;
+	}
+
+	/* Helper for stacked controls like in Toast and Form */
+	.stacked-example {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		margin-top: 0.5rem;
+	}
+
+	/* Make form inputs stack */
+	.stacked-example :global(form) {
+		display: flex;
+		flex-direction: column;
 		gap: 0.75rem;
 	}
 
-	/* dark theme vars */
-	:global([data-theme='dark']) {
-		--card-bg: #0b1220;
-		--muted: #9aa4b2;
-	}
-	:global([data-theme='dark']) .demo-card {
-		border-color: rgba(255, 255, 255, 0.04);
+	/* Ensure inputs and dropdowns in rows or stacks can grow */
+	.row > :global(input[type='text']),
+	.row > :global(.dropdown-wrapper) {
+		flex-grow: 1;
 	}
 </style>
