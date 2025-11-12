@@ -1,5 +1,14 @@
 <script lang="ts">
-	import { Button, IconButton, TextInput, Toggle, Dropdown, Loading, Checkbox, Radio } from '$lib/components';
+	import {
+		Button,
+		IconButton,
+		TextInput,
+		Toggle,
+		Dropdown,
+		Loading,
+		Checkbox,
+		Radio
+	} from '$lib/components';
 
 	const variants = ['primary', 'secondary', 'ghost'] as const;
 	const sizes = ['sm', 'md', 'lg'] as const;

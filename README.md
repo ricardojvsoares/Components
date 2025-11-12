@@ -13,6 +13,7 @@ How to run locally
 
 - Install with pnpm (preferred): `pnpm install`
 - Dev server: `pnpm run dev`
+
 # RJComponents
 
 RJComponents is a small, neutral Svelte 5 component library with accessible UI primitives implemented in Svelte 5 runes.
@@ -79,7 +80,7 @@ Example (Svelte 5 runes):
 </script>
 
 <Button variant="primary">Click me</Button>
-<Dropdown items={[{label:'A',value:'a'}]} bind:value={choice} />
+<Dropdown items={[{ label: 'A', value: 'a' }]} bind:value={choice} />
 ```
 
 ## CI / Auto-publish
