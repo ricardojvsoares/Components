@@ -4,12 +4,20 @@
 	 * @prop {string} value - the input's value (bindable)
 	 * @prop {string} placeholder - placeholder text
 	 * @prop {boolean} disabled - whether the input is disabled
+	 * @prop {string} name - input name attribute (for forms)
+	 * @prop {string} type - input type (default: text)
 	 */
-	let { value = $bindable(''), placeholder = '', disabled = false } = $props();
+	let {
+		value = $bindable(''),
+		placeholder = '',
+		disabled = false,
+		name = '',
+		type = 'text'
+	} = $props();
 </script>
 
 <div class="input-wrap">
-	<input class="text-input" {placeholder} {disabled} bind:value />
+	<input class="text-input" {placeholder} {disabled} bind:value {name} {type} />
 	<span class="text-input__glass" aria-hidden="true"></span>
 </div>
 

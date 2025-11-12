@@ -10,3 +10,6 @@ export { default as Hamburger } from './Hamburger.svelte';
 export { default as Slide } from './Slide.svelte';
 export { default as Toast } from './Toast.svelte';
 export { toaster } from './toaster';
+export { default as Icon } from './Icon.svelte';
+export { default as Form } from './Form.svelte';
+export { default as Pattern } from './Pattern.svelte';

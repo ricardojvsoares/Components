@@ -2,7 +2,10 @@
 	import {
 		Button,
 		IconButton,
+		Icon,
 		TextInput,
+		Form,
+		Pattern,
 		Toggle,
 		Dropdown,
 		Loading,
@@ -258,6 +261,42 @@
 		</div>
 
 		<Toast />
+
+		<div class="demo-card">
+			<h2>Icon</h2>
+			<div class="example">
+				<div class="chip">name / size</div>
+				<div class="row">
+					<Icon name="check" size="lg" />
+					<Icon name="close" size="md" />
+					<Icon size="sm" />
+				</div>
+			</div>
+		</div>
+
+		<div class="demo-card">
+			<h2>Form</h2>
+			<div class="example">
+				<div class="chip">on:submit</div>
+				<div class="row single">
+					<Form on:submit={(e) => console.log('form submit', e.detail)}>
+						<TextInput name="fullName" placeholder="Full name" />
+						<TextInput name="email" placeholder="Email" />
+						<Button type="submit">Submit</Button>
+					</Form>
+				</div>
+			</div>
+		</div>
+
+		<div class="demo-card">
+			<h2>Pattern</h2>
+			<div class="example">
+				<div class="chip">decorative</div>
+				<div class="row single">
+					<Pattern variant="grid" size="md" />
+				</div>
+			</div>
+		</div>
 
 		<div class="demo-card">
 			<h2>Text input</h2>
