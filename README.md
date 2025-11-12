@@ -13,54 +13,84 @@ How to run locally
 
 - Install with pnpm (preferred): `pnpm install`
 - Dev server: `pnpm run dev`
-- Run tests: `pnpm test`
-- Build library: `pnpm run build:lib`
+# RJComponents
 
-Notes about publishing
+RJComponents is a small, neutral Svelte 5 component library with accessible UI primitives implemented in Svelte 5 runes.
 
-- The package.json is currently private. Remove or set `private: false` and add repository & author fields before publishing.
-- The build command produces `dist/components.es.js` and `dist/components.cjs.js`.
+Included components (examples): Button, Toggle, Dropdown, Checkbox, Radio, TextInput, Loading, IconButton.
 
-Publishing notes
+## Quickstart
 
-- Before publishing, set `private` to `false` in `package.json`, set a proper `name` (e.g., `@your-scope/components`), `repository`, `author`, and `license` fields.
-- Ensure `files` in `package.json` includes the build output (e.g., `dist/`) and any typings.
+Recommended: pnpm.
 
-# sv
+Install and run the demo locally:
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+```bash
+pnpm install
+pnpm run dev
 ```
 
-## Developing
+Build the distributable library:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```bash
+pnpm run build:lib
 ```
 
-## Building
+Run tests:
 
-To create a production version of your app:
-
-```sh
-npm run build
+```bash
+pnpm test
 ```
 
-You can preview the production build with `npm run preview`.
+## Publish as `RJComponents`
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Suggested package name (scoped): `@ricardojvsoares/rjcomponents`.
+
+Before publishing:
+
+- Update `package.json`: set `private: false`, `name`, `version`, `description`, `repository`, and `license`.
+- Add `files` that should be published (e.g., `dist`, `README.md`, `LICENSE`).
+- Add `peerDependencies`: `{ "svelte": "^5" }`.
+- Add a `prepare` script to build the library before publish (e.g., `pnpm build:lib && pnpm run build:types`).
+
+Publish steps (pnpm preferred):
+
+```bash
+pnpm install
+pnpm build:lib
+npm login   # only once, if needed
+pnpm publish --access public
+```
+
+If you want TypeScript declarations included, generate them with `tsc --emitDeclarationOnly` or a bundler plugin and put them under `dist/types`.
+
+## Usage after publish
+
+```bash
+pnpm add @ricardojvsoares/rjcomponents
+```
+
+Example (Svelte 5 runes):
+
+```svelte
+<script lang="ts">
+	import { Button, Dropdown } from '@ricardojvsoares/rjcomponents';
+	let choice = $state('');
+</script>
+
+<Button variant="primary">Click me</Button>
+<Dropdown items={[{label:'A',value:'a'}]} bind:value={choice} />
+```
+
+## CI / Auto-publish
+
+Add a GitHub Actions workflow to build & publish on new tag pushes. Use an `NPM_AUTH_TOKEN` secret to authenticate.
+
+## Next steps I can do for you
+
+- Update `package.json` to the recommended fields (name, files, exports, peerDependencies).
+- Add `tsconfig.build.json` and a `build:types` script to emit declaration files.
+- Inspect and, if needed, update `vite.lib.config.ts` to produce ESM + CJS outputs and a clean `dist/` layout.
+- Add a GitHub Actions workflow to publish on tag.
+
+Tell me which of those you want me to apply and I will proceed.
