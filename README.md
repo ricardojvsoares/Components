@@ -3,20 +3,29 @@
 This repository contains a small Svelte 5 component library.
 
 What's included
+
 - A neutral, mac-inspired Button component at `src/lib/components/Button.svelte`.
 - An in-app demo route at `/components-demo` to preview components during development.
 - A Vite library build config (`vite.lib.config.ts`) to build distributable artifacts.
 - Unit tests with Vitest and @testing-library/svelte (basic Button tests).
 
 How to run locally
+
 - Install with pnpm (preferred): `pnpm install`
 - Dev server: `pnpm run dev`
 - Run tests: `pnpm test`
 - Build library: `pnpm run build:lib`
 
 Notes about publishing
+
 - The package.json is currently private. Remove or set `private: false` and add repository & author fields before publishing.
 - The build command produces `dist/components.es.js` and `dist/components.cjs.js`.
+
+Publishing notes
+
+- Before publishing, set `private` to `false` in `package.json`, set a proper `name` (e.g., `@your-scope/components`), `repository`, `author`, and `license` fields.
+- Ensure `files` in `package.json` includes the build output (e.g., `dist/`) and any typings.
+
 # sv
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).

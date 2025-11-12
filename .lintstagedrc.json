@@ -1,0 +1,3 @@
+{
+	"src/**/*.{svelte,ts,js,json,css}": ["npm run format"]
+}
