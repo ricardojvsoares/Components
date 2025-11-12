@@ -40,13 +40,13 @@ After installing the package from GitHub, import the Svelte files directly from 
 
 ```svelte
 <script>
-	import Button from 'my-awesome-components/src/lib/components/Button.svelte';
+	import { Button } from 'rjcomponents/ui';
 </script>
 
 <Button>Click me</Button>
 ```
 
-If you'd like nicer top-level paths (for example `my-awesome-components/Button`), I can update `package.json` `exports` to map those names to the correct files.
+If you'd like nicer top-level paths (for example `rjcomponents/Button`), I can update `package.json` `exports` to map those names to the correct files.
 
 ## Quickstart
 

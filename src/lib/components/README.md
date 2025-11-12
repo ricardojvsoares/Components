@@ -235,7 +235,7 @@ Example
 
 ```svelte
 <script lang="ts">
-	import { toaster, Toast } from '$lib/components';
+	import { toaster, Toast } from 'rjcomponents/ui';
 
 	function notify() {
 		toaster.push('Saved!', { type: 'success' });

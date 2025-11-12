@@ -18,6 +18,6 @@ Import the Svelte files directly from the package path (the package ships `src/l
 
 ```svelte
 <script>
-	import Button from 'my-awesome-components/src/lib/components/Button.svelte';
+	import { Button } from 'rjcomponents/ui';
 </script>
 ```
