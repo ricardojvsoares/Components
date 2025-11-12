@@ -6,3 +6,7 @@ export { default as Dropdown } from './Dropdown.svelte';
 export { default as Loading } from './Loading.svelte';
 export { default as Checkbox } from './Checkbox.svelte';
 export { default as Radio } from './Radio.svelte';
+export { default as Hamburger } from './Hamburger.svelte';
+export { default as Slide } from './Slide.svelte';
+export { default as Toast } from './Toast.svelte';
+export { toaster } from './toaster';

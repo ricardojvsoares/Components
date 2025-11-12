@@ -25,8 +25,9 @@
 		type = 'button',
 		ariaLabel,
 		children,
-		icon
-	}: Props & { children?: any; icon?: any } = $props();
+		icon,
+		onclick
+	}: Props & { children?: any; icon?: any; onclick?: (e?: Event) => void } = $props();
 
 	const variantClass = $derived.by(() => {
 		switch (variant) {
@@ -52,6 +53,7 @@
 
 	function handleClick(event: MouseEvent) {
 		if (disabled || loading) event.preventDefault();
+		if (onclick && typeof onclick === 'function') onclick(event);
 	}
 </script>
 

@@ -1,21 +1,58 @@
 <script lang="ts">
 	/**
-	 * IconButton - circular icon-only button with same visual language
-	 * @prop disabled
-	 * @prop ariaLabel
+	 * IconButton - customizable icon-only button/link
+	 * Props:
+	 * - href?: when provided renders an anchor
+	 * - size?: 'sm' | 'md' | 'lg'
+	 * - theme?: string (used as a CSS class)
+	 * - ariaLabel?: accessible label
 	 */
-	type Props = { disabled?: boolean; ariaLabel?: string };
-	let { disabled = false, ariaLabel, children }: Props & { children?: any } = $props();
+	type Props = {
+		href?: string;
+		target?: string;
+		size?: 'sm' | 'md' | 'lg';
+		theme?: string;
+		ariaLabel?: string;
+		disabled?: boolean;
+	};
+	let {
+		href = '',
+		target = undefined,
+		size = 'md',
+		theme = '',
+		ariaLabel = '',
+		disabled = false,
+		children
+	}: Props & { children?: any } = $props();
 
 	function handleClick(e: MouseEvent) {
 		if (disabled) e.preventDefault();
 	}
 </script>
 
-<button class="icon-btn" {disabled} aria-label={ariaLabel} onclick={handleClick}>
-	<span class="icon-btn__glass" aria-hidden="true"></span>
-	<span class="icon-btn__content">{@render children()}</span>
-</button>
+{#if href}
+	<a
+		class="icon-btn {theme} icon-btn--{size}"
+		{href}
+		{target}
+		aria-label={ariaLabel}
+		onclick={handleClick}
+		rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+	>
+		<span class="icon-btn__glass" aria-hidden="true"></span>
+		<span class="icon-btn__content">{@render children()}</span>
+	</a>
+{:else}
+	<button
+		class="icon-btn {theme} icon-btn--{size}"
+		{disabled}
+		aria-label={ariaLabel}
+		onclick={handleClick}
+	>
+		<span class="icon-btn__glass" aria-hidden="true"></span>
+		<span class="icon-btn__content">{@render children()}</span>
+	</button>
+{/if}
 
 <style>
 	.icon-btn {
@@ -25,17 +62,65 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		border: 1px solid var(--btn-primary-border);
-		background: var(--btn-primary-bg);
-		box-shadow: var(--btn-shadow);
+		position: relative;
+		overflow: hidden;
+		text-decoration: none;
+
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		background: #ffffff;
+		color: #333;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+		cursor: pointer;
+		transition:
+			transform 150ms ease,
+			box-shadow 150ms ease;
 	}
+
+	.icon-btn:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+	}
+
+	.icon-btn:active {
+		transform: translateY(0);
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	}
+
+	.icon-btn[disabled] {
+		background: #f0f0f0;
+		color: #999;
+		cursor: not-allowed;
+		transform: none;
+		box-shadow: none;
+	}
+
+	.icon-btn--sm {
+		width: 2rem;
+		height: 2rem;
+	}
+	.icon-btn--lg {
+		width: 3rem;
+		height: 3rem;
+	}
+
 	.icon-btn__content {
 		z-index: 1;
+		display: inline-flex;
+		font-size: 1.1em;
 	}
+	.icon-btn--sm .icon-btn__content {
+		font-size: 0.9em;
+	}
+	.icon-btn--lg .icon-btn__content {
+		font-size: 1.4em;
+	}
+
 	.icon-btn__glass {
 		position: absolute;
 		inset: 0;
 		pointer-events: none;
+		border-radius: 9999px;
 		background: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.06));
+		z-index: 0;
 	}
 </style>
