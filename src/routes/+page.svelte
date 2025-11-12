@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, IconButton, TextInput, Toggle, Dropdown } from '$lib/components';
+	import { Button, IconButton, TextInput, Toggle, Dropdown, Loading, Checkbox, Radio } from '$lib/components';
 
 	const variants = ['primary', 'secondary', 'ghost'] as const;
 	const sizes = ['sm', 'md', 'lg'] as const;
@@ -105,6 +105,38 @@
 						bind:value={dropdownValue}
 						placeholder="Choose..."
 					/>
+				</div>
+			</div>
+			<div class="row muted">Value: {dropdownValue}</div>
+		</div>
+
+		<div class="demo-card">
+			<h2>Loading</h2>
+			<div class="example">
+				<div class="chip">size="md"</div>
+				<div class="row">
+					<Loading size="md" />
+				</div>
+			</div>
+		</div>
+
+		<div class="demo-card">
+			<h2>Checkbox</h2>
+			<div class="example">
+				<div class="chip">bind:checked</div>
+				<div class="row">
+					<Checkbox bind:checked={inputChecked} label="Accept terms" />
+				</div>
+			</div>
+		</div>
+
+		<div class="demo-card">
+			<h2>Radio</h2>
+			<div class="example">
+				<div class="chip">bind:selected</div>
+				<div class="row">
+					<Radio name="group1" value="a" bind:selected={dropdownValue} label="Option A" />
+					<Radio name="group1" value="b" bind:selected={dropdownValue} label="Option B" />
 				</div>
 			</div>
 			<div class="row muted">Value: {dropdownValue}</div>
