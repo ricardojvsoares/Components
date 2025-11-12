@@ -1,8 +1,13 @@
 {
-	"name": "test",
-	"private": true,
+	"name": "rjcomponents",
 	"version": "0.0.1",
 	"type": "module",
+	"files": [
+		"src/lib"
+	],
+	"exports": {
+		"./*": "./src/lib/*.svelte"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
