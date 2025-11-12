@@ -3,11 +3,10 @@
 	"version": "0.0.1",
 	"type": "module",
 	"files": [
-		"src/lib"
+		"src/lib/components"
 	],
 	"exports": {
-		"./ui": "./src/lib/index.ts",
-		"./*": "./src/lib/*.svelte"
+		"./components": "./src/lib/index.ts"
 	},
 	"scripts": {
 		"dev": "vite dev",
