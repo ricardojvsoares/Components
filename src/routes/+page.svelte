@@ -1,32 +1,13 @@
 <script lang="ts">
-	import { Button, IconButton, TextInput, Toggle } from '$lib/components';
-	import NavBar from '$lib/components/NavBar.svelte';
+	import { Button, IconButton, TextInput, Toggle, Dropdown } from '$lib/components';
 
 	const variants = ['primary', 'secondary', 'ghost'] as const;
 	const sizes = ['sm', 'md', 'lg'] as const;
 
 	let inputValue = $state('');
-	let themeDark = $state(false);
 	let inputChecked = $state(false);
-
-	function applyTheme(dark: boolean) {
-		document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-		localStorage.setItem('theme-dark', String(dark));
-	}
-
-	// client-only initialization (avoid SSR errors and @svelte5 runes lifecycle)
-	if (typeof window !== 'undefined') {
-		const stored = localStorage.getItem('theme-dark');
-		const initial = stored !== null ? stored === 'true' : false;
-		themeDark = initial;
-		applyTheme(initial);
-	}
-
-	// react to theme changes using Svelte 5 runes style
-	const _themeApply = $derived.by(() => applyTheme(themeDark));
+	let dropdownValue = $state('');
 </script>
-
-<NavBar title="Component gallery" />
 
 <main class="demo-root">
 	<header class="demo-header">
@@ -34,19 +15,17 @@
 			<h1>Components demo</h1>
 			<p class="muted">Svelte 5 - demo page</p>
 		</div>
-		<div style="display:flex;align-items:center;gap:0.75rem">
-			<span class="muted">Light</span>
-			<Toggle bind:checked={themeDark} />
-			<span class="muted">Dark</span>
-		</div>
 	</header>
 
 	<section class="demo-grid">
 		<div class="demo-card">
 			<h2>Variants</h2>
 			{#each variants as v}
-				<div class="row">
-					<Button variant={v as 'primary' | 'secondary' | 'ghost'}>{v} button</Button>
+				<div class="example">
+					<div class="chip">variant="{v}"</div>
+					<div class="row">
+						<Button variant={v as 'primary' | 'secondary' | 'ghost'}>{v} button</Button>
+					</div>
 				</div>
 			{/each}
 		</div>
@@ -54,24 +33,37 @@
 		<div class="demo-card">
 			<h2>Sizes</h2>
 			{#each sizes as s}
-				<div class="row">
-					<Button size={s as 'sm' | 'md' | 'lg'}>{s} size</Button>
+				<div class="example">
+					<div class="chip">size="{s}"</div>
+					<div class="row">
+						<Button size={s as 'sm' | 'md' | 'lg'}>{s} size</Button>
+					</div>
 				</div>
 			{/each}
 		</div>
 
 		<div class="demo-card">
 			<h2>Loading / Disabled</h2>
-			<div class="row">
-				<Button loading={true}>Loading</Button>
-				<Button disabled={true}>Disabled</Button>
+			<div class="example">
+				<div class="chip">loading={true}</div>
+				<div class="row">
+					<Button loading={true}>Loading</Button>
+				</div>
+			</div>
+			<div class="example">
+				<div class="chip">disabled={true}</div>
+				<div class="row">
+					<Button disabled={true}>Disabled</Button>
+				</div>
 			</div>
 		</div>
 
 		<div class="demo-card">
 			<h2>Icon button</h2>
-			<div class="row">
-				<IconButton ariaLabel="settings">
+			<div class="example">
+				<div class="chip">ariaLabel="settings"</div>
+				<div class="row">
+					<IconButton ariaLabel="settings">
 					<svg
 						width="16"
 						height="16"
@@ -95,23 +87,51 @@
 						/>
 					</svg>
 				</IconButton>
+				</div>
 			</div>
 		</div>
 
 		<div class="demo-card">
+			<h2>Dropdown</h2>
+			<div class="example">
+				<div class="chip">bind:value</div>
+				<div class="row">
+					<Dropdown items={[{label:'One', value:'1'},{label:'Two', value:'2'},{label:'Three', value:'3'}]} bind:value={dropdownValue} placeholder="Choose..." />
+				</div>
+			</div>
+			<div class="row muted">Value: {dropdownValue}</div>
+		</div>
+
+		<div class="demo-card">
 			<h2>Text input</h2>
-			<div class="row">
-				<TextInput placeholder="Type something" bind:value={inputValue} />
+			<div class="example">
+				<div class="chip">bind:value</div>
+				<div class="row">
+					<TextInput placeholder="Type something" bind:value={inputValue} />
+				</div>
 			</div>
 			<div class="row muted">Value: {inputValue}</div>
 		</div>
 
 		<div class="demo-card">
 			<h2>Toggle</h2>
-			<div class="row">
-				<Toggle />
-				<Toggle size="sm" />
-				<Toggle size="lg" />
+			<div class="example">
+				<div class="chip">size="md"</div>
+				<div class="row">
+					<Toggle />
+				</div>
+			</div>
+			<div class="example">
+				<div class="chip">size="sm"</div>
+				<div class="row">
+					<Toggle size="sm" />
+				</div>
+			</div>
+			<div class="example">
+				<div class="chip">size="lg"</div>
+				<div class="row">
+					<Toggle size="lg" />
+				</div>
 			</div>
 			<div class="row">
 				<label style="display:flex;align-items:center;gap:0.5rem">
@@ -123,8 +143,6 @@
 		</div>
 	</section>
 </main>
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
 
 <style>
 	.demo-root {
@@ -152,9 +170,30 @@
 	}
 	.demo-card {
 		background: var(--card-bg, #fff);
-		border: 1px solid rgba(0, 0, 0, 0.04);
-		padding: 1rem;
-		border-radius: 8px;
+		border: 1px solid rgba(0, 0, 0, 0.06);
+		padding: 1rem 1.25rem;
+		border-radius: 10px;
+		box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+	}
+
+	.demo-card h2 {
+		margin: 0 0 0.5rem 0;
+		font-size: 1.05rem;
+	}
+
+	.example {
+		display: block;
+		margin: 0.5rem 0;
+	}
+
+	.chip {
+		display: inline-block;
+		font-size: 0.78rem;
+		padding: 0.18rem 0.45rem;
+		border-radius: 999px;
+		background: rgba(0,0,0,0.04);
+		color: #111827;
+		margin-bottom: 0.45rem;
 	}
 	.row {
 		margin: 0.5rem 0;
