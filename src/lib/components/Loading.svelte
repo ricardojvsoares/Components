@@ -10,7 +10,7 @@
 	const px = sizeMap[size] ?? sizeMap.md;
 </script>
 
-<div class="spinner" role="status" aria-live="polite" aria-label={label || 'Loading'}>
+<div class="spinner" role="status" aria-live="polite" aria-label={label ? undefined : 'Loading'}>
 	<svg class="ring" width={px} height={px} viewBox="0 0 24 24" aria-hidden="true">
 		<circle class="bg" cx="12" cy="12" r="10" fill="none" stroke-width="3" />
 		<path
@@ -22,7 +22,7 @@
 		/>
 	</svg>
 	{#if label}
-		<span class="visually-hidden">{label}</span>
+		<span class="label">{label}</span>
 	{/if}
 </div>
 
@@ -31,6 +31,7 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		gap: 8px;
 	}
 	.ring {
 		display: block;
@@ -48,15 +49,10 @@
 			transform: rotate(360deg);
 		}
 	}
-	.visually-hidden {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		padding: 0;
-		margin: -1px;
-		overflow: hidden;
-		clip: rect(0, 0, 0, 0);
-		white-space: nowrap;
-		border: 0;
+
+	.label {
+		font-size: 0.9rem;
+		line-height: 1;
+		margin: 0;
 	}
 </style>
