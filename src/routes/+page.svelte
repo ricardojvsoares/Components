@@ -361,23 +361,37 @@
 
 		<!-- === Slide === -->
 		<div class="demo-card">
-			<h2>Slide (value example)</h2>
+			<h2>Slider (Volume Dial)</h2>
 			<div class="example">
-				<div class="chip">bind:value (0-100)</div>
-				<div class="row single">
-					<Slide bind:value={slideValue} direction="horizontal">
-						<div
-							style="padding: 1rem; border: 1px dashed var(--border-color); border-radius: 6px; min-height: 50px;"
-						>
-							Slide content at {slideValue}% width
-						</div>
-					</Slide>
+				<div class="chip">Custom <code>Slider</code> component</div>
+				<div class="row single" style="padding: 1rem 0;">
+					<Slide bind:value={slideValue} min={0} max={100} />
 				</div>
+
+				<div class="chip">Native <code>input type="range"</code></div>
 				<div class="row">
 					<label class="interactive-label" style="width: 100%">
 						Value:
 						<input type="range" min="0" max="100" bind:value={slideValue} style="width: 100%" />
-						<span class="muted" style="min-width: 2rem">{slideValue}</span>
+						<span class="muted" style="min-width: 3rem">{slideValue}</span>
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="demo-card">
+			<h2>Slider (Vertical)</h2>
+			<div class="example">
+				<div
+					class="row single"
+					style="display: flex; gap: 2rem; align-items: center; min-height: 250px;"
+				>
+					<Slide bind:value={slideValue} direction="vertical" />
+
+					<label class="interactive-label" style="width: 100%">
+						Value:
+						<input type="range" min="0" max="100" bind:value={slideValue} style="width: 100%" />
+						<span class="muted" style="min-width: 3rem">{slideValue}</span>
 					</label>
 				</div>
 			</div>

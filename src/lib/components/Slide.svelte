@@ -1,46 +1,143 @@
 <script lang="ts">
-	// Slide - simple panel that can be sized by `size` or driven by a bindable `value` (0-100)
 	let {
-		open = $bindable(false),
-		direction = 'horizontal' as 'horizontal' | 'vertical',
-		size = '100%',
-		value = $bindable<number | null>(null),
-		children
+		value = $bindable(0),
+		min = 0,
+		max = 100,
+		step = 1,
+		direction = 'horizontal' as 'horizontal' | 'vertical'
 	} = $props();
 
-	// compute style inline in markup to stay compatible with runes
+	let isDragging = $state(false);
+	let sliderEl = $state<HTMLDivElement | null>(null);
+
+	const percent = $derived(
+		max - min === 0 ? 0 : ((value - min) / (max - min)) * 100
+	);
+
+	const fillStyle = $derived(
+		direction === 'horizontal' ? `width: ${percent}%` : `height: ${percent}%`
+	);
+
+	const thumbStyle = $derived(
+		direction === 'horizontal' ? `left: ${percent}%` : `bottom: ${percent}%`
+	);
+
+	function updateValueFromEvent(event: PointerEvent) {
+		if (!sliderEl) return;
+
+		const rect = sliderEl.getBoundingClientRect();
+		let percentRaw = 0;
+
+		if (direction === 'horizontal') {
+			const pos = event.clientX - rect.left;
+			percentRaw = pos / rect.width;
+		} else {
+			const pos = event.clientY - rect.top;
+			percentRaw = (rect.height - pos) / rect.height;
+		}
+
+		const percentClamped = Math.max(0, Math.min(1, percentRaw));
+
+		const range = max - min;
+		const rawValue = percentClamped * range + min;
+
+		const steppedValue = Math.round(rawValue / step) * step;
+
+		value = Math.max(min, Math.min(max, steppedValue));
+	}
+
+	function onPointerDown(event: PointerEvent) {
+		isDragging = true;
+		(event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+		updateValueFromEvent(event);
+	}
+
+	function onPointerMove(event: PointerEvent) {
+		if (!isDragging) return;
+		updateValueFromEvent(event);
+	}
+
+	function onPointerUp(event: PointerEvent) {
+		isDragging = false;
+		(event.currentTarget as HTMLElement).releasePointerCapture(event.pointerId);
+	}
 </script>
 
-<div class="slide slide--{direction}" aria-hidden={!open} style="--size: {size}">
-	<div
-		class="slide__panel"
-		style={value != null
-			? direction === 'horizontal'
-				? `width: ${value}%`
-				: `height: ${value}%`
-			: undefined}
-	>
-		{@render children()}
+<div
+	class="slider slider--{direction}"
+	bind:this={sliderEl}
+	onpointerdown={onPointerDown}
+	onpointermove={onPointerMove}
+	onpointerup={onPointerUp}
+>
+	<div class="slider__track">
+		<div class="slider__fill" style={fillStyle}></div>
+		<div class="slider__thumb" style={thumbStyle}></div>
 	</div>
 </div>
 
 <style>
-	.slide {
-		overflow: hidden;
-		display: block;
-	}
-	.slide--horizontal {
-		width: var(--size, 100%);
-		transition: width 220ms ease;
-	}
-	.slide--vertical {
-		height: var(--size, 100%);
-		transition: height 220ms ease;
-	}
-	.slide__panel {
+	.slider {
+		display: inline-block;
+		user-select: none;
+		touch-action: none;
 		padding: 0.5rem;
+		box-sizing: content-box;
 	}
-	:global(.slide[aria-hidden='true']) {
-		display: none;
+
+	.slider__track {
+		position: relative;
+		background: #333;
+		border-radius: 99px;
+		cursor: pointer;
+	}
+
+	.slider__fill {
+		position: absolute;
+		background: var(--accent-color, #007bff);
+		border-radius: 99px;
+	}
+
+	.slider__thumb {
+		position: absolute;
+		width: 16px;
+		height: 16px;
+		background: white;
+		border-radius: 50%;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+	}
+
+	.slider--horizontal {
+		width: 200px;
+	}
+	.slider--horizontal .slider__track {
+		width: 100%;
+		height: 6px;
+	}
+	.slider--horizontal .slider__fill {
+		top: 0;
+		left: 0;
+		height: 100%;
+	}
+	.slider--horizontal .slider__thumb {
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.slider--vertical {
+		height: 200px;
+	}
+	.slider--vertical .slider__track {
+		width: 6px;
+		height: 100%;
+	}
+	.slider--vertical .slider__fill {
+		bottom: 0;
+		left: 0;
+		width: 100%;
+	}
+	.slider--vertical .slider__thumb {
+		left: 50%;
+		transform: translate(-50%, 50%);
 	}
 </style>
