@@ -128,6 +128,15 @@
 					<IconButton href="https://www.google.com/" target="_blank" ariaLabel="Link" size="md">
 						<Icon name="link" />
 					</IconButton>
+					<IconButton
+						href="https://www.youtube.com/"
+						target="_blank"
+						ariaLabel="Go to YouTube"
+						size="md"
+						theme="youtube"
+					>
+						<Icon name="youtube" />
+					</IconButton>
 				</div>
 			</div>
 		</div>
@@ -584,5 +593,20 @@
 		align-items: center;
 		gap: 0.5rem;
 		cursor: pointer;
+	}
+	:global(.icon-btn.youtube) {
+		background-color: #ff0000;
+		color: #ffffff; /* This makes the icon inside white */
+		border-color: #ff0000;
+	}
+
+	:global(.icon-btn.youtube:hover) {
+		background-color: #e60000; /* A slightly darker red on hover */
+		border-color: #e60000;
+	}
+
+	:global(.icon-btn.youtube:active) {
+		background-color: #cc0000; /* An even darker red when clicked */
+		border-color: #cc0000;
 	}
 </style>
