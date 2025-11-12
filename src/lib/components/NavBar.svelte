@@ -1,16 +1,27 @@
 <script lang="ts">
 	/**
-	 * NavBar — small header used on demo pages
-	 * @prop {string} title - Title shown on the left side of the nav
+	 * Reusable NavBar component
+	 * @prop {string} title - brand/title text
+	 * @prop {{href:string,label:string}[]} links - navigation links shown on the right
+	 * @prop {boolean} compact - if true, render a compact variant
 	 */
-	let { title = 'Components' } = $props();
+
+	type Link = { href: string; label: string };
+	let {
+		title = 'Components',
+		links = [{ href: '/', label: 'Home' }] as Link[],
+		compact = false,
+		actions = () => null
+	} = $props();
 </script>
 
-<nav class="demo-nav">
+<nav class="demo-nav {compact ? 'demo-nav--compact' : ''}">
 	<div class="demo-nav__brand">{title}</div>
 	<div class="demo-nav__links">
-		<a href="/">Home</a>
-		<a href="/components-demo">Components</a>
+		{#each links as l}
+			<a href={l.href}>{l.label}</a>
+		{/each}
+		{@render actions()}
 	</div>
 </nav>
 
