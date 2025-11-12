@@ -1,0 +1,33 @@
+node_modules/
+dist/
+.svelte-kit/
+*.log
+pnpm-lock.yaml
+package-lock.json
+.DS_Store
+.idea/
+.vscode/
+coverage/
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
