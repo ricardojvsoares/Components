@@ -13,3 +13,4 @@ export { toaster } from './toaster';
 export { default as Icon } from './Icon.svelte';
 export { default as Form } from './Form.svelte';
 export { default as Pattern } from './Pattern.svelte';
+export { default as Modal } from './Modal.svelte';

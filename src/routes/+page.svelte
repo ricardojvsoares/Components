@@ -2,6 +2,7 @@
 	import {
 		Button,
 		IconButton,
+		Modal,
 		Icon,
 		TextInput,
 		Form,
@@ -29,6 +30,7 @@
 	let slideValue = $state(50);
 	let toastMessage = $state('');
 	let toastType = $state('info');
+	let demoModalOpen = $state(false);
 </script>
 
 <main class="demo-root">
@@ -90,6 +92,18 @@
 
 		<!-- === Icon Buttons === -->
 		<div class="demo-card">
+			<h2>Modal</h2>
+			<div class="example">
+				<div class="chip">Open modal</div>
+				<div class="row">
+					<Button onclick={() => (demoModalOpen = true)}>Open Modal</Button>
+				</div>
+			</div>
+
+			<Modal bind:open={demoModalOpen} title="Demo modal">
+				<p>This is a demo modal opened from the demo page.</p>
+			</Modal>
+
 			<h2>Icon Button</h2>
 			<div class="example">
 				<div class="chip">Sizes & Variants</div>
