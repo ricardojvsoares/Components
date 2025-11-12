@@ -20,139 +20,127 @@
 	const variants = ['primary', 'secondary', 'ghost'] as const;
 	const sizes = ['sm', 'md', 'lg'] as const;
 
+	// --- State for controls ---
 	let inputValue = $state('');
 	let inputChecked = $state(false);
+	let radioValue = $state('a');
 	let dropdownValue = $state('');
 	let hamburgerOpen = $state(false);
-	let slideValue = $state(50); // numeric value 0-100 for demo
-	let toastCount = $state(0);
-
-	function pushToast() {
-		toaster.push(inputValue || 'Empty message', {
-			type: dropdownValue as 'info' | 'success' | 'error'
-		});
-		toastCount++;
-	}
+	let slideValue = $state(50);
+	let toastMessage = $state('');
+	let toastType = $state('info');
 </script>
 
 <main class="demo-root">
 	<header class="demo-header">
 		<div>
 			<h1>Components demo</h1>
-			<p class="muted">Svelte 5 - demo page</p>
+			<p class="muted">Svelte 5 - Component Kitchen Sink</p>
 		</div>
 	</header>
 
 	<section class="demo-grid">
-		<div class="demo-card">
-			<h2>Variants</h2>
+		<!-- === Buttons === -->
+		<div class="demo-card demo-card--col-2">
+			<h2>Buttons</h2>
+			<!-- Variants x Sizes -->
 			{#each variants as v}
 				<div class="example">
 					<div class="chip">variant="{v}"</div>
 					<div class="row">
-						<Button variant={v as 'primary' | 'secondary' | 'ghost'}>{v} button</Button>
+						{#each sizes as s}
+							<Button variant={v} size={s}>{s}</Button>
+						{/each}
 					</div>
 				</div>
 			{/each}
-		</div>
 
-		<div class="demo-card">
-			<h2>Sizes</h2>
-			{#each sizes as s}
-				<div class="example">
-					<div class="chip">size="{s}"</div>
-					<div class="row">
-						<Button size={s as 'sm' | 'md' | 'lg'}>{s} size</Button>
-					</div>
-				</div>
-			{/each}
-		</div>
-
-		<div class="demo-card">
-			<h2>Loading / Disabled</h2>
+			<!-- With Icons -->
 			<div class="example">
-				<div class="chip">loading={true}</div>
+				<div class="chip">With Icon</div>
 				<div class="row">
-					<Button loading={true}>Loading</Button>
+					<Button size="sm">
+						<Icon name="check" size="sm" />
+						Small
+					</Button>
+					<Button size="md">
+						<Icon name="check" size="md" />
+						Medium
+					</Button>
+					<Button size="lg">
+						<Icon name="check" size="lg" />
+						Large
+					</Button>
 				</div>
+			</div>
+
+			<!-- States -->
+			<div class="example">
+				<div class="chip">States</div>
+				<div class="row">
+					<Button loading={true}>Loading...</Button>
+					<Button disabled={true}>Disabled</Button>
+					<Button variant="secondary" loading={true}>Loading...</Button>
+					<Button variant="secondary" disabled={true}>Disabled</Button>
+					<Button variant="ghost" loading={true}>Loading...</Button>
+					<Button variant="ghost" disabled={true}>Disabled</Button>
+				</div>
+			</div>
+		</div>
+
+		<!-- === Icon Buttons === -->
+		<div class="demo-card">
+			<h2>Icon Button</h2>
+			<div class="example">
+				<div class="chip">Sizes & Variants</div>
+				<div class="row">
+					<IconButton ariaLabel="Settings" size="sm">
+						<Icon name="settings" />
+					</IconButton>
+					<IconButton ariaLabel="Settings" size="md">
+						<Icon name="settings" />
+					</IconButton>
+					<IconButton ariaLabel="Settings" size="lg">
+						<Icon name="settings" />
+					</IconButton>
+				</div>
+			</div>
+			<div class="example">
+				<div class="chip">States</div>
+				<div class="row">
+					<IconButton ariaLabel="Disabled" size="md" disabled={true}>
+						<Icon name="settings" />
+					</IconButton>
+					<IconButton href="https://www.google.com/" target="_blank" ariaLabel="Link" size="md">
+						<Icon name="link" />
+					</IconButton>
+				</div>
+			</div>
+		</div>
+
+		<!-- === Text Input === -->
+		<div class="demo-card">
+			<h2>Text Input</h2>
+			<div class="example">
+				<div class="chip">Interactive</div>
+				<div class="row">
+					<TextInput placeholder="Type something..." bind:value={inputValue} />
+				</div>
+				<div class="row muted small">Value: {inputValue || 'none'}</div>
 			</div>
 			<div class="example">
 				<div class="chip">disabled={true}</div>
 				<div class="row">
-					<Button disabled={true}>Disabled</Button>
+					<TextInput placeholder="Can't type" value="Disabled" disabled={true} />
 				</div>
 			</div>
 		</div>
 
-		<div class="demo-card">
-			<h2>Icon button</h2>
-			<div class="example">
-				<div class="chip">ariaLabel="settings"</div>
-				<div class="row">
-					<IconButton ariaLabel="settings" size="md">
-						<svg
-							width="16"
-							height="16"
-							viewBox="0 0 24 24"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7z"
-								stroke="currentColor"
-								stroke-width="1.2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path
-								d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06A2 2 0 1 1 2.27 17.9l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82L4.27 6.6A2 2 0 1 1 7.1 3.77l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V2a2 2 0 1 1 4 0v.09c0 .58.38 1.08 1 1.51h.03a1.65 1.65 0 0 0 1.82-.33l.06-.06A2 2 0 1 1 20.73 6.1l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.58 0 1.08.38 1.51 1h.09a2 2 0 1 1 0 4h-.09c-.43.62-.93 1-1.51 1z"
-								stroke="currentColor"
-								stroke-width="1"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-						</svg>
-					</IconButton>
-					<IconButton
-						href="https://www.youtube.com/"
-						target="_blank"
-						ariaLabel="YouTube"
-						size="md"
-						theme="danger"
-					>
-						<svg
-							width="1em"
-							height="1em"
-							viewBox="0 0 24 24"
-							fill="currentColor"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path d="M8 5v14l11-7-11-7z" />
-						</svg>
-					</IconButton>
-					<IconButton ariaLabel="search" size="sm">
-						<svg
-							width="14"
-							height="14"
-							viewBox="0 0 24 24"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-							><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.2" /><path
-								d="M21 21l-4.35-4.35"
-								stroke="currentColor"
-								stroke-width="1.2"
-								stroke-linecap="round"
-							/></svg
-						>
-					</IconButton>
-				</div>
-			</div>
-		</div>
-
+		<!-- === Dropdown === -->
 		<div class="demo-card">
 			<h2>Dropdown</h2>
 			<div class="example">
-				<div class="chip">bind:value</div>
+				<div class="chip">Interactive</div>
 				<div class="row">
 					<Dropdown
 						items={[
@@ -164,100 +152,176 @@
 						placeholder="Choose..."
 					/>
 				</div>
+				<div class="row muted small">Value: {dropdownValue || 'none'}</div>
 			</div>
-			<div class="row muted">Value: {dropdownValue || 'none'}</div>
-		</div>
-
-		<div class="demo-card">
-			<h2>Loading</h2>
 			<div class="example">
-				<div class="chip">size="md"</div>
-				<div class="row single">
-					<Loading size="md" />
-				</div>
-				<div class="chip">size="lg" label="Loading..."</div>
-				<div class="row single">
-					<Loading size="lg" label="Loading..." />
+				<div class="chip">disabled={true}</div>
+				<div class="row">
+					<Dropdown
+						items={[{ label: 'One', value: '1' }]}
+						value="1"
+						placeholder="Choose..."
+						disabled={true}
+					/>
 				</div>
 			</div>
 		</div>
 
+		<!-- === Toggles === -->
+		<div class="demo-card">
+			<h2>Toggle</h2>
+			<div class="example">
+				<div class="chip">Sizes</div>
+				<div class="row">
+					<Toggle size="sm" />
+					<Toggle size="md" />
+					<Toggle size="lg" />
+				</div>
+			</div>
+			<div class="example">
+				<div class="chip">Interactive</div>
+				<div class="row">
+					<label class="interactive-label">
+						Interactive:
+						<Toggle bind:checked={inputChecked} />
+					</label>
+				</div>
+				<div class="row muted small">Value: {String(inputChecked)}</div>
+			</div>
+			<div class="example">
+				<div class="chip">disabled={true}</div>
+				<div class="row">
+					<Toggle size="md" checked={false} disabled={true} />
+					<Toggle size="md" checked={true} disabled={true} />
+				</div>
+			</div>
+		</div>
+
+		<!-- === Checkbox === -->
 		<div class="demo-card">
 			<h2>Checkbox</h2>
 			<div class="example">
-				<div class="chip">bind:checked</div>
+				<div class="chip">Interactive</div>
 				<div class="row single">
 					<Checkbox bind:checked={inputChecked} label="Accept terms" />
 				</div>
 			</div>
+			<div class="example">
+				<div class="chip">disabled={true}</div>
+				<div class="stacked-example" style="gap: 0.5rem">
+					<Checkbox checked={false} disabled={true} label="Disabled off" />
+					<Checkbox checked={true} disabled={true} label="Disabled on" />
+				</div>
+			</div>
 		</div>
 
+		<!-- === Radio === -->
 		<div class="demo-card">
 			<h2>Radio</h2>
 			<div class="example">
-				<div class="chip">bind:selected</div>
-				<div class="stacked-example" style="gap: 0.5rem;">
-					<Radio name="group1" value="a" bind:selected={dropdownValue} label="Option A" />
-					<Radio name="group1" value="b" bind:selected={dropdownValue} label="Option B" />
+				<div class="chip">Interactive</div>
+				<div class="stacked-example" style="gap: 0.5rem">
+					<Radio name="group1" value="a" bind:selected={radioValue} label="Option A" />
+					<Radio name="group1" value="b" bind:selected={radioValue} label="Option B" />
+				</div>
+				<div class="row muted small">Value: {radioValue || 'none'}</div>
+			</div>
+			<div class="example">
+				<div class="chip">disabled={true}</div>
+				<div class="stacked-example" style="gap: 0.5rem">
+					<Radio name="group2" value="c" selected="c" disabled={true} label="Disabled on" />
+					<Radio name="group2" value="d" selected="c" disabled={true} label="Disabled off" />
 				</div>
 			</div>
-			<div class="row muted">Value: {dropdownValue || 'none'}</div>
 		</div>
 
+		<!-- === Loading === -->
+		<div class="demo-card">
+			<h2>Loading</h2>
+			<div class="example">
+				<div class="chip">Sizes</div>
+				<div class="row single">
+					<Loading size="sm" />
+					<Loading size="md" />
+					<Loading size="lg" />
+				</div>
+			</div>
+			<div class="example">
+				<div class="chip">With Label</div>
+				<div class="row single">
+					<Loading size="md" label="Loading..." />
+				</div>
+			</div>
+		</div>
+
+		<!-- === Hamburger === -->
 		<div class="demo-card">
 			<h2>Hamburger</h2>
 			<div class="example">
-				<div class="chip">bind:open</div>
+				<div class="chip">Sizes (Interactive)</div>
 				<div class="row single">
+					<Hamburger size="sm" />
 					<Hamburger bind:open={hamburgerOpen} size="md" />
+					<Hamburger size="lg" />
 				</div>
-				<div class="row muted">Open: {String(hamburgerOpen)}</div>
+				<div class="row muted small">MD Open: {String(hamburgerOpen)}</div>
 			</div>
 		</div>
 
+		<!-- === Form === -->
 		<div class="demo-card">
-			<h2>Slide (value example)</h2>
+			<h2>Form</h2>
 			<div class="example">
-				<div class="chip">bind:value (0-100)</div>
-				<div class="row single">
-					<Slide bind:value={slideValue} direction="horizontal">
-						<div style="padding: 1rem; border: 1px dashed var(--border-color); border-radius: 6px;">
-							Slide content at {slideValue}% width
-						</div>
-					</Slide>
+				<div class="chip">Standard</div>
+				<div class="stacked-example">
+					<Form on:submit={(e) => console.log('form submit', e.detail)}>
+						<TextInput name="fullName" placeholder="Full name" />
+						<TextInput name="email" placeholder="Email" type="email" />
+						<Button type="submit">Submit</Button>
+					</Form>
 				</div>
-				<div class="row">
-					<label style="display:flex;align-items:center;gap:0.5rem; width: 100%">
-						Value:
-						<input type="range" min="0" max="100" bind:value={slideValue} style="width: 100%" />
-						<span class="muted" style="min-width: 2rem;">{slideValue}</span>
-					</label>
+			</div>
+			<div class="example">
+				<div class="chip">Disabled</div>
+				<div class="stacked-example">
+					<Form>
+						<TextInput name="fullName" placeholder="Full name" disabled={true} />
+						<TextInput name="email" placeholder="Email" type="email" disabled={true} />
+						<Button type="submit" disabled={true}>Submit</Button>
+					</Form>
 				</div>
 			</div>
 		</div>
 
+		<!-- === Toast === -->
 		<div class="demo-card">
 			<h2>Toast</h2>
 			<div class="example">
-				<div class="chip">programmatic</div>
+				<div class="chip">Programmatic</div>
 				<div class="stacked-example">
-					<TextInput placeholder="Toast message" bind:value={inputValue} />
+					<TextInput placeholder="Toast message" bind:value={toastMessage} />
 					<Dropdown
 						items={[
 							{ label: 'info', value: 'info' },
 							{ label: 'success', value: 'success' },
 							{ label: 'error', value: 'error' }
 						]}
-						bind:value={dropdownValue}
+						bind:value={toastType}
 						placeholder="type"
 					/>
-					<Button onclick={pushToast}>Push toast</Button>
+					<Button
+						onclick={() =>
+							toaster.push(toastMessage || 'Empty message', {
+								type: toastType as 'info' | 'success' | 'error'
+							})}
+					>
+						Push toast
+					</Button>
 				</div>
 			</div>
 		</div>
 
-		<Toast />
-
+		<!-- === Icon === -->
 		<div class="demo-card">
 			<h2>Icon</h2>
 			<div class="example">
@@ -265,25 +329,38 @@
 				<div class="row">
 					<Icon name="check" size="lg" />
 					<Icon name="close" size="md" />
-					<Icon size="sm" />
+					<Icon name="settings" size="sm" />
+					<Icon name="link" />
+					<Icon name="default" size="lg" />
 				</div>
 			</div>
 		</div>
 
+		<!-- === Slide === -->
 		<div class="demo-card">
-			<h2>Form</h2>
+			<h2>Slide (value example)</h2>
 			<div class="example">
-				<div class="chip">on:submit</div>
-				<div class="stacked-example">
-					<Form onSubmit={(data: unknown) => console.log('form submit', data)}>
-						<TextInput name="fullName" placeholder="Full name" />
-						<TextInput name="email" placeholder="Email" />
-						<Button type="submit">Submit</Button>
-					</Form>
+				<div class="chip">bind:value (0-100)</div>
+				<div class="row single">
+					<Slide bind:value={slideValue} direction="horizontal">
+						<div
+							style="padding: 1rem; border: 1px dashed var(--border-color); border-radius: 6px; min-height: 50px;"
+						>
+							Slide content at {slideValue}% width
+						</div>
+					</Slide>
+				</div>
+				<div class="row">
+					<label class="interactive-label" style="width: 100%">
+						Value:
+						<input type="range" min="0" max="100" bind:value={slideValue} style="width: 100%" />
+						<span class="muted" style="min-width: 2rem">{slideValue}</span>
+					</label>
 				</div>
 			</div>
 		</div>
 
+		<!-- === Pattern === -->
 		<div class="demo-card">
 			<h2>Pattern</h2>
 			<div class="example">
@@ -295,53 +372,13 @@
 					<Pattern variant="grid" size="lg" color="rgba(255, 0, 0, 0.1)" />
 				</div>
 				<div class="row single">
-					<Pattern variant="stripes" size="sm" color="#0000FF" class="h-48 rounded-full" />
+					<Pattern variant="stripes" size="sm" color="#0000FF" />
 				</div>
 			</div>
-		</div>
-
-		<div class="demo-card">
-			<h2>Text input</h2>
-			<div class="example">
-				<div class="chip">bind:value</div>
-				<div class="row">
-					<TextInput placeholder="Type something" bind:value={inputValue} />
-				</div>
-			</div>
-			<div class="row muted">Value: {inputValue || 'none'}</div>
-		</div>
-
-		<div class="demo-card">
-			<h2>Toggle</h2>
-			<div class="example">
-				<div class="chip">size="md"</div>
-				<div class="row">
-					<Toggle />
-				</div>
-			</div>
-			<div class="example">
-				<div class="chip">size="sm"</div>
-				<div class="row">
-					<Toggle size="sm" />
-				</div>
-			</div>
-			<div class="example">
-				<div class="chip">size="lg"</div>
-				<div class="row">
-					<Toggle size="lg" />
-				</div>
-			</div>
-			<div class="example">
-				<div class="row">
-					<label style="display:flex;align-items:center;gap:0.5rem">
-						Interactive:
-						<Toggle bind:checked={inputChecked} />
-					</label>
-				</div>
-			</div>
-			<div class="row muted">Value: {String(inputChecked)}</div>
 		</div>
 	</section>
+
+	<Toast />
 </main>
 
 <style>
@@ -429,6 +466,18 @@
 			transform 0.2s,
 			box-shadow 0.2s,
 			border-color 0.2s;
+		/* Allow cards to span columns */
+		grid-column: span 1;
+	}
+
+	.demo-card--col-2 {
+		grid-column: span 1;
+	}
+	/* At wider breakpoints, allow col-2 to span */
+	@media (min-width: 960px) {
+		.demo-card--col-2 {
+			grid-column: span 2;
+		}
 	}
 
 	.demo-card:hover {
@@ -488,6 +537,10 @@
 		color: var(--muted-fg);
 		font-size: 0.9rem;
 	}
+	.muted.small {
+		font-size: 0.8rem;
+		margin-top: 0.5rem;
+	}
 
 	/* Helper for stacked controls like in Toast and Form */
 	.stacked-example {
@@ -506,7 +559,16 @@
 
 	/* Ensure inputs and dropdowns in rows or stacks can grow */
 	.row > :global(input[type='text']),
-	.row > :global(.dropdown-wrapper) {
+	.row > :global(.dropdown) {
 		flex-grow: 1;
+		min-width: 150px;
+	}
+
+	/* Helper for interactive labels */
+	.interactive-label {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		cursor: pointer;
 	}
 </style>
