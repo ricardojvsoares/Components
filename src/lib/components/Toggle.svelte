@@ -1,55 +1,27 @@
 <script lang="ts">
-	// Svelte 5 runes Toggle component
 	/**
 	 * @prop {boolean} checked - bindable checked state
 	 * @prop {boolean} disabled - whether the toggle is disabled
 	 * @prop {'sm'|'md'|'lg'} size - visual size variant
 	 */
 	let { checked = $bindable(false), disabled = false, size = 'md' } = $props();
-
-	const handleClick = (e: MouseEvent) => {
-		if (disabled) return;
-		checked = !checked;
-		// dispatch change for non-bind consumers
-		const ev = new CustomEvent('change', { detail: { checked } });
-		dispatchEvent(ev);
-	};
-
-	const handleKey = (e: KeyboardEvent) => {
-		if (disabled) return;
-		if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
-			e.preventDefault();
-			handleClick(e as any as MouseEvent);
-		}
-	};
 </script>
 
-<div
-	role="switch"
-	class="toggle {disabled ? 'disabled' : ''} toggle--{size}"
-	aria-checked={checked}
-	aria-disabled={disabled}
-	tabindex={disabled ? -1 : 0}
-	onclick={handleClick}
-	onkeydown={handleKey}
->
+<label class="toggle-wrapper toggle--{size}">
+	<input type="checkbox" class="visually-hidden" role="switch" bind:checked {disabled} />
+
 	<div class="toggle__track">
 		<div class="toggle__thumb" aria-hidden="true"></div>
 	</div>
-</div>
+</label>
 
 <style>
-	.toggle {
+	.toggle-wrapper {
 		display: inline-flex;
 		align-items: center;
 		cursor: pointer;
 	}
-	.toggle.disabled {
-		opacity: 0.55;
-		cursor: not-allowed;
-	}
 
-	/* size helpers via CSS variables */
 	.toggle--sm {
 		--track-w: 36px;
 		--track-h: 20px;
@@ -66,7 +38,7 @@
 		--track-w: 56px;
 		--track-h: 32px;
 		--thumb: 28px;
-		--thumb-move: 28px;
+		--thumb-move: 24px;
 	}
 
 	.toggle__track {
@@ -96,18 +68,36 @@
 			box-shadow 180ms ease;
 	}
 
-	.toggle[aria-checked='true'] .toggle__track {
+	.visually-hidden:checked + .toggle__track {
 		--track-bg: linear-gradient(180deg, #3b82f6, #2563eb);
 		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
 	}
-	.toggle[aria-checked='true'] .toggle__thumb {
+	.visually-hidden:checked + .toggle__track > .toggle__thumb {
 		transform: translateX(var(--thumb-move));
 		box-shadow: 0 6px 12px rgba(37, 99, 235, 0.28);
 	}
 
-	/* small accessibility focus styles */
-	.toggle:focus-visible {
+	.visually-hidden:disabled + .toggle__track {
+		opacity: 0.55;
+	}
+	.toggle-wrapper:has(.visually-hidden:disabled) {
+		cursor: not-allowed;
+	}
+
+	.visually-hidden:focus-visible + .toggle__track {
 		outline: 3px solid rgba(59, 130, 246, 0.18);
 		outline-offset: 4px;
+	}
+
+	.visually-hidden {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
 	}
 </style>
