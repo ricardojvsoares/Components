@@ -279,7 +279,7 @@
 			<div class="example">
 				<div class="chip">on:submit</div>
 				<div class="row single">
-					<Form on:submit={(e) => console.log('form submit', e.detail)}>
+					<Form onSubmit={(data: unknown) => console.log('form submit', data)}>
 						<TextInput name="fullName" placeholder="Full name" />
 						<TextInput name="email" placeholder="Email" />
 						<Button type="submit">Submit</Button>
@@ -293,7 +293,13 @@
 			<div class="example">
 				<div class="chip">decorative</div>
 				<div class="row single">
-					<Pattern variant="grid" size="md" />
+					<Pattern />
+				</div>
+				<div class="row single">
+					<Pattern variant="grid" size="lg" color="rgba(255, 0, 0, 0.1)" />
+				</div>
+				<div class="row single">
+					<Pattern variant="stripes" size="sm" color="#0000FF" class="h-48 rounded-full" />
 				</div>
 			</div>
 		</div>
