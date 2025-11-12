@@ -1,23 +1,32 @@
 <script lang="ts">
-	/**
-	 * Form component — small wrapper to standardize form spacing and submit handling
-	 * Props:
-	 * - onSubmit?: (data: any) => void — optional submit handler
-	 * - class?: string — additional classes
-	 */
-	let { onSubmit = undefined, class: className = '', children } = $props();
+	let { onSubmit = undefined, class: className = '', children, ...rest } = $props();
 
-	// simple data collection from inputs with `name` attributes
+	type FormDataMap = Record<string, FormDataEntryValue>;
+
 	function handleSubmit(e: Event) {
+		if (!e.isTrusted) {
+			return;
+		}
+
 		e.preventDefault();
 		const form = e.currentTarget as HTMLFormElement;
-		const data = Object.fromEntries(new FormData(form).entries());
-		if (onSubmit && typeof onSubmit === 'function') onSubmit(data);
-		form.dispatchEvent(new CustomEvent('submit', { detail: data }));
+		const data: FormDataMap = Object.fromEntries(new FormData(form).entries());
+
+		if (onSubmit) {
+			onSubmit(data);
+		}
+
+		form.dispatchEvent(
+			new CustomEvent('submit', {
+				detail: data,
+				bubbles: true,
+				composed: true
+			})
+		);
 	}
 </script>
 
-<form class="s-form {className}" onsubmit={handleSubmit}>
+<form class="s-form {className}" onsubmit={handleSubmit} {...rest}>
 	{@render children()}
 </form>
 

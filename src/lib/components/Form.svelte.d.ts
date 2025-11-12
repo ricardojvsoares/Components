@@ -1,12 +1,19 @@
-import { SvelteComponentTyped } from 'svelte';
+import type { SvelteComponentTyped, SvelteHTMLElements } from 'svelte';
 
-export interface FormProps {
-	onSubmit?: (data: unknown) => void;
-	class?: string;
+type FormDataMap = Record<string, FormDataEntryValue>;
+
+type NativeFormProps = SvelteHTMLElements['form'];
+
+export interface FormProps extends Omit<NativeFormProps, 'onsubmit'> {
+	onSubmit?: (data: FormDataMap) => void;
 }
 
 export default class Form extends SvelteComponentTyped<
 	FormProps,
-	{ submit: CustomEvent<unknown> },
-	{ default: Record<string, unknown> }
+	{
+		submit: CustomEvent<FormDataMap>;
+	},
+	{
+		default: Record<string, unknown>;
+	}
 > {}
