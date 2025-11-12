@@ -13,9 +13,7 @@
 		const form = e.currentTarget as HTMLFormElement;
 		const data = Object.fromEntries(new FormData(form).entries());
 		if (onSubmit && typeof onSubmit === 'function') onSubmit(data);
-		// dispatch a custom event too
-		const ev = new CustomEvent('submit', { detail: data });
-		dispatchEvent(ev);
+		form.dispatchEvent(new CustomEvent('submit', { detail: data }));
 	}
 </script>
 
