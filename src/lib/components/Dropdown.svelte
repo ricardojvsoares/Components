@@ -67,7 +67,7 @@
 						?.label}{:else}{String(value)}{/if}</span
 			>
 		{/if}
-		<span class="caret">▾</span>
+		<span class="caret" class:open>▾</span>
 	</button>
 
 	{#if open}
@@ -145,6 +145,14 @@
 	}
 	.menu li.selected {
 		font-weight: 600;
+	}
+	.caret {
+		display: inline-block;
+		transition: transform 180ms ease;
+		transform-origin: center;
+	}
+	.caret.open {
+		transform: rotate(180deg);
 	}
 	.placeholder {
 		color: #6b7280;
