@@ -41,7 +41,7 @@
 	<header class="demo-header">
 		<div>
 			<h1>Components demo</h1>
-			<p class="muted">Svelte 5 - Component Kitchen Sink</p>
+			<p class="muted">Svelte 5 - Component Demo Page</p>
 		</div>
 	</header>
 
@@ -133,7 +133,7 @@
 						<Icon name="link" />
 					</IconButton>
 					<IconButton
-						href="https://www.youtube.com/"
+						href="/youtube"
 						target="_blank"
 						ariaLabel="Go to YouTube"
 						size="md"
