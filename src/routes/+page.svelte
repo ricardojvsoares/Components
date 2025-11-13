@@ -359,6 +359,27 @@
 					<Icon name="settings" size="sm" />
 					<Icon name="link" />
 					<Icon name="default" size="lg" />
+
+					<Icon name="arrowLeft" />
+					<Icon name="arrowRight" />
+					<Icon name="chevronDown" />
+					<Icon name="chevronUp" />
+					<Icon name="chevronRight" />
+					<Icon name="chevronLeft" />
+					<Icon name="copy" />
+					<Icon name="edit" />
+					<Icon name="externalLink" />
+					<Icon name="github" />
+					<Icon name="heart" />
+					<Icon name="home" />
+					<Icon name="info" />
+					<Icon name="mail" />
+					<Icon name="menu" />
+					<Icon name="moreVertical" />
+					<Icon name="search" />
+					<Icon name="trash" />
+					<Icon name="twitter" />
+					<Icon name="user" />
 				</div>
 			</div>
 		</div>
