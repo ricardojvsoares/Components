@@ -22,11 +22,17 @@
 		theme = '',
 		ariaLabel = '',
 		disabled = false,
-		children
-	}: Props & { children?: any } = $props();
+		children,
+		onclick
+	}: Props & { children?: any; onclick?: (e?: Event) => void } = $props();
 
 	function handleClick(e: MouseEvent) {
-		if (disabled) e.preventDefault();
+		if (disabled) {
+			e.preventDefault();
+			return;
+		}
+
+		if (onclick && typeof onclick === 'function') onclick(e);
 	}
 </script>
 

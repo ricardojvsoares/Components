@@ -31,6 +31,10 @@
 	let toastMessage = $state('');
 	let toastType = $state('info');
 	let demoModalOpen = $state(false);
+
+	function iconClick(e?: Event, name = 'icon') {
+		toaster.push(`${name} clicked`);
+	}
 </script>
 
 <main class="demo-root">
@@ -108,13 +112,13 @@
 			<div class="example">
 				<div class="chip">Sizes & Variants</div>
 				<div class="row">
-					<IconButton ariaLabel="Settings" size="sm">
+					<IconButton ariaLabel="Settings" size="sm" onclick={(e) => iconClick(e, 'settings-sm')}>
 						<Icon name="settings" />
 					</IconButton>
-					<IconButton ariaLabel="Settings" size="md">
+					<IconButton ariaLabel="Settings" size="md" onclick={(e) => iconClick(e, 'settings-md')}>
 						<Icon name="settings" />
 					</IconButton>
-					<IconButton ariaLabel="Settings" size="lg">
+					<IconButton ariaLabel="Settings" size="lg" onclick={(e) => iconClick(e, 'settings-lg')}>
 						<Icon name="settings" />
 					</IconButton>
 				</div>
