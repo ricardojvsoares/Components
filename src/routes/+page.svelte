@@ -35,6 +35,10 @@
 	function iconClick(e?: Event, name = 'icon') {
 		toaster.push(`${name} clicked`);
 	}
+
+	const handleClick = () => {
+		toaster.push(`clicked`);
+	};
 </script>
 
 <main class="demo-root">
@@ -351,6 +355,7 @@
 		<!-- === Icon === -->
 		<div class="demo-card">
 			<h2>Icon</h2>
+
 			<div class="example">
 				<div class="chip">name / size</div>
 				<div class="row">
@@ -359,7 +364,6 @@
 					<Icon name="settings" size="sm" />
 					<Icon name="link" />
 					<Icon name="default" size="lg" />
-
 					<Icon name="arrowLeft" />
 					<Icon name="arrowRight" />
 					<Icon name="chevronDown" />
@@ -380,6 +384,16 @@
 					<Icon name="trash" />
 					<Icon name="twitter" />
 					<Icon name="user" />
+				</div>
+			</div>
+
+			<div class="example">
+				<div class="chip">Clickable / Color / Custom Class</div>
+				<div class="row">
+					<Icon name="heart" size="lg" onclick={handleClick} ariaLabel="Like this item" />
+					<Icon name="settings" size="lg" color="royalblue" />
+					<Icon name="info" size="lg" color="orange" />
+					<Icon name="github" size="lg" class="my-custom-icon-class" onclick={handleClick} />
 				</div>
 			</div>
 		</div>
