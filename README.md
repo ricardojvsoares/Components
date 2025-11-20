@@ -1,8 +1,4 @@
-# Component Library
 
-This repository contains a small Svelte 5 component library.
-
-````markdown
 # Component Library
 
 This repository contains a small Svelte 5 component library.
@@ -32,7 +28,7 @@ pnpm add github:ricardojvsoares/Components
 # npm
 npm install github:ricardojvsoares/Components
 ```
-````
+
 
 Importing
 
@@ -86,8 +82,3 @@ Add a GitHub Actions workflow to build & publish on new tag pushes. Use an `NPM_
 - Inspect and, if needed, update `vite.lib.config.ts` to produce ESM + CJS outputs and a clean `dist/` layout.
 - Add a GitHub Actions workflow to publish on tag.
 
-Tell me which of those you want me to apply and I will proceed.
-
-```
-
-```

@@ -46,7 +46,3 @@ Notes
 
 - This repo prefers pnpm. Run `pnpm install` to install deps.
 - Keep `svelte` as a peerDependency in your published package if you expect consumers to provide it.
-
-```
-
-```
